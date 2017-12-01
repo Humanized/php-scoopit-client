@@ -23,11 +23,9 @@ to the ```require``` section of your `composer.json` file.
 
 ## Getting Started
 
-$config=[
-'a'=>b
-]```
+```
 $client=new ScoopitClient($config);
 $response = $client->test();
 var_dump($response);
-
 ```
+
