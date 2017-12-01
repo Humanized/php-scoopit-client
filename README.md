@@ -10,13 +10,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-$ php composer.phar require humanized/scoopit-php-client "dev-master"
+$ php composer.phar require humanized/php-scoopit-client "dev-master"
 ```
 
 or add
 
 ```
-"humanized/scoopit-php-client": "dev-master"
+"humanized/php-scoopit-client": "dev-master"
 ```
 
 to the ```require``` section of your `composer.json` file.
