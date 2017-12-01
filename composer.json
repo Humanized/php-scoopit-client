@@ -1,0 +1,26 @@
+{
+    "name": "humanized/php-scoopit-client",
+    "description": "PHP API client for Scoop.it",
+    "keywords": ["scoop.it","php","api"],
+    "license": "MIT",
+    "version": "1.0",
+    "support": {
+        "issues": "https://github.com/humanized/php-scoopit-client/issues",
+        "wiki": "https://github.com/humanized/php-scoopit-client/wiki",
+        "source": "https://github.com/humanized/php-scoopit-client"
+    },
+    "authors": [
+        {
+            "name": "Jeffrey Geyssens",
+            "email": "jeffrey@humanized.be"
+        }
+    ],
+    "require": {
+        "php" : ">=5.4",
+    },
+    "autoload": {
+        "psr-4": {
+            "humanized\\scoopitclient\\": ""
+        }
+    }
+}
