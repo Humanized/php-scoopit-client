@@ -24,7 +24,8 @@ to the ```require``` section of your `composer.json` file.
 ## Getting Started
 
 ```
-//Initialise the client with valied account credentials         
+//Initialise the client with valid scoop.it account credentials 
+
 $config= [ 'base_uri'=>'your-scoopit-account',
            'consumer_key'=>'your-consumer-key',
            'consumer_secret'=>'your-consumer-secret',
@@ -35,6 +36,7 @@ $config= [ 'base_uri'=>'your-scoopit-account',
 $client=new ScoopitClient($config);
 
 //And away we go!
+
 $response = $client->test();
 var_dump($response);
 ```
