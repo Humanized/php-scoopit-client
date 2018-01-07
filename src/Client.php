@@ -6,11 +6,11 @@
  * The third-party tool provides API operations allowing access to the raw data,
  * using programming code.
  * Operations supported are listed on http://www.scoop.it/dev/api/1/
- *
+ * 
  * @author Jeffrey Geyssens
  * @package php-scoopit-client
  * @version 1.0
- * @link https://github.com/humanized/scoopit-php-client
+ * @link https://github.com/humanized/php-scoopit-client
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  * 
  */
@@ -25,7 +25,7 @@ class Client extends \GuzzleHttp\Client
 
     const AVAILABLE_GET_REQUESTS = [
         'profile', 'topic', 'post', 'test', 'notification',  'compilation',
-        'search', 'resolver', 'interest', 'interest-list', 'sse', 'se', 'sugs'
+        'search', 'resolver', 'interest', 'interestList', 'sse', 'se', 'sugs'
     ];
     const AVAILABLE_POST_REQUESTS = [
         //Actions related to topic URL
@@ -37,8 +37,12 @@ class Client extends \GuzzleHttp\Client
         'configureSse', 'configureSe', 'listSugs'
     ];
 
-    public $formatResponse = null;
-
+    /**
+     *
+     * @var boolean - by default client response is wrapped 
+     */
+    public $decodeBodyContents = true;
+    
     /**
      *
      * @var type 
@@ -63,8 +67,6 @@ class Client extends \GuzzleHttp\Client
      */
     public function __construct(array $config = array())
     {
-
-
         $config['base_uri'] = isset($config['base_uri']) ? $config['base_uri'] : 'https://www.scoop.it/api/1/';
         $this->_middlewareConfig = [
             'consumer_key' => $config['consumer_key'],
@@ -79,20 +81,21 @@ class Client extends \GuzzleHttp\Client
 
         $config['handler'] = &$this->_stack;
         $config['auth'] = 'oauth';
+     
         parent::__construct($config);
     }
 
     /**
      * 
-     * @param type $method
-     * @param type $args
+     * @param string $method
+     * @param string[] $args
      * @return type
      */
     public function __call($method, $args)
     {
         $response = $this->_performRequest($method, $args);
         if (isset($response)) {
-            return $this->_formatResponse($response);
+            return $this->decodeBodyContents? \GuzzleHttp\json_decode($response->getBody()->getContents()):$response;
         }
         return parent::__call($method, $args);
     }
@@ -104,7 +107,7 @@ class Client extends \GuzzleHttp\Client
             $q = $args[0];
         }
         if (in_array($method, self::AVAILABLE_GET_REQUESTS)) {
-            return $this->get($method, ['query' => $q]);
+            return $this->get(($method=='intrestList'?'intrest-list':$method), ['query' => $q]);
         }
         if (in_array($method, self::AVAILABLE_POST_REQUESTS)) {
             foreach (self::AVAILABLE_GET_REQUESTS as $r) {
@@ -116,35 +119,4 @@ class Client extends \GuzzleHttp\Client
         }
         return null;
     }
-
-    private function _formatResponse($response)
-    {
-
-        if (!isset($this->formatResponse)) {
-            return $response;
-        }
-
-        return call_user_func($this->formatResponse, $response);
-    }
-
-    /**
-     * 
-     * @param type $response
-     * @return type
-     */
-    public static function reflectResponse($response)
-    {
-        return $response;
-    }
-
-    /**
-     * 
-     * @param type $response
-     * @return type
-     */
-    public static function formatResponse($response)
-    {
-        return \GuzzleHttp\json_decode($response->getBody()->getContents());
-    }
-
 }
