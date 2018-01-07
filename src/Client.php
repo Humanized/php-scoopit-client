@@ -39,19 +39,21 @@ class Client extends \GuzzleHttp\Client
 
     /**
      *
-     * @var boolean - by default client response is wrapped 
+     * @var GuzzleHttp\HandlerStack 
      */
-    public $decodeBodyContents = true;
+    public $_stack;
+    
     
     /**
      *
-     * @var type 
+     * @var boolean -  By default, response body content is decoded and returned. Set to false to return the unformatted response in it's entirety.
      */
-    public $_stack;
+    public $decodeBodyContents = true;
+    
 
     /**
      *
-     * @var type 
+     * @var GuzzleHttp\Subscriber\Oauth\Oauth1
      */
     private $_middlewareConfig = [];
 
